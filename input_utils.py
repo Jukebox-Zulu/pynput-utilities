@@ -2,8 +2,8 @@ from pynput.mouse import Button, Controller as MController
 from pynput.keyboard import Key, Controller as KBController
 from time import sleep
 
-k_controller = KBController()
-m_controller = MController()
+Keyboard = KBController()
+Mouse = MController()
 
 keys = {
     'space': Key.space,
@@ -55,14 +55,14 @@ def key(string, loops=1, enter=False, interval=0.1):
         else:
             key_obj = keys.get(string)
             if key_obj:
-                k_controller.press(key_obj)
-                k_controller.release(key_obj)
+                Keyboard.press(key_obj)
+                Keyboard.release(key_obj)
             elif len(string) == 1 and string.islower():
-                k_controller.press(string)
+                Keyboard.press(string)
             else:
-                k_controller.type(string)
+                Keyboard.type(string)
             if enter:
-                k_controller.press(Key.enter)
+                Keyboard.press(Key.enter)
         sleep(interval)
 
 
@@ -71,30 +71,30 @@ class held(object):
         self.button = keys.get(button)
 
     def __enter__(self):
-        k_controller.press(self.button)
+        Keyboard.press(self.button)
 
     def __exit__(self, *args):
-        k_controller.release(self.button)
+        Keyboard.release(self.button)
 
 
 def click(x=False, y=False, clicks=1, interval=0.1, button='left'):
-    button = buttons.get('button')
+    button = buttons.get(button)
     if x and y:
-        m_controller.position = (x, y)
+        Mouse.position = (x, y)
     for i in range(clicks):
-        m_controller.click(button)
+        Mouse.click(button)
         sleep(interval)
 
 
-def drag(start=m_controller.position, end=m_controller.position, duration=0.1, button='left'):
+def drag(start=Mouse.position, end=Mouse.position, duration=0.1, button='left'):
     button = buttons.get(button)
-    m_controller.position = start
-    m_controller.press(button)
+    Mouse.position = start
+    Mouse.press(button)
     sleep(duration/2)
-    m_controller.position = end
+    Mouse.position = end
     sleep(duration/2)
-    m_controller.release(button)
+    Mouse.release(button)
 
 
 def mouse_move(x, y):
-    m_controller.position = (x, y)
+    Mouse.position = (x, y)
