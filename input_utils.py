@@ -77,10 +77,9 @@ class held(object):
         Keyboard.release(self.button)
 
 
-def click(x=False, y=False, clicks=1, interval=0.1, button='left'):
+def click(x=Mouse.position[0], y=Mouse.position[1], clicks=1, interval=0.1, button='left'):
     button = buttons.get(button)
-    if x and y:
-        Mouse.position = (x, y)
+    Mouse.position = (x, y)
     for i in range(clicks):
         Mouse.click(button)
         sleep(interval)
