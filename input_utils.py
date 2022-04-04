@@ -37,6 +37,12 @@ keys = {
     'f12': Key.f12
 }
 
+buttons = {
+    'left': Button.left,
+    'right': Button.right,
+    'middle': Button.middle
+}
+
 
 def key(string, loops=1, enter=False, interval=0.1):
     for i in range(loops):
@@ -71,18 +77,24 @@ class held(object):
         k_controller.release(self.button)
 
 
-def click(x=False, y=False, clicks=1, interval=0.1):
+def click(x=False, y=False, clicks=1, interval=0.1, button='left'):
+    button = buttons.get('button')
     if x and y:
-        mmove(x, y)
+        m_controller.position = (x, y)
     for i in range(clicks):
-        m_controller.click(Button.left)
+        m_controller.click(button)
         sleep(interval)
 
 
-def rclick(interval=0.1):
-    m_controller.click(Button.right)
-    sleep(interval)
+def drag(start=m_controller.position, end=m_controller.position, duration=0.1, button='left'):
+    button = buttons.get(button)
+    m_controller.position = start
+    m_controller.press(button)
+    sleep(duration/2)
+    m_controller.position = end
+    sleep(duration/2)
+    m_controller.release(button)
 
 
-def mmove(x, y):
+def mouse_move(x, y):
     m_controller.position = (x, y)
